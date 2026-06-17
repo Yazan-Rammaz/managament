@@ -93,3 +93,31 @@ Start a new feature with `npm run gen` — never hand-roll the structure.
 Cloudflare **Workers Builds** is connected to the git repo → push to `main`
 auto-builds (`opennextjs-cloudflare build`) and deploys. Secrets (`NEST_API_URL`)
 are Cloudflare secrets; local dev uses `.dev.vars` (git-ignored).
+
+## 9. Session pickup — where we left off (as of 2026-06-17)
+
+The scaffold is complete and verified: `tsc`, `eslint`, `vitest` (7 tests) and
+`next build` all pass. Initial commit is on `main`. Remote `origin` is set to
+`https://github.com/Yazan-Rammaz/managament.git` but **nothing is pushed yet**
+(by the owner's request).
+
+Open items, in priority order:
+
+1. **Confirm/align the NestJS auth contract.** The BFF currently assumes:
+   - `POST /auth/login`, `POST /auth/register`, `POST /auth/refresh`
+     → respond `{ accessToken, refreshToken, accessMaxAge, refreshMaxAge }`
+   - `GET /auth/me` → `{ id, email, name, role, countryCode? }`
+   - `POST /auth/logout`
+   If the real NestJS endpoints differ, update `src/lib/api/server.ts`,
+   `src/features/auth/actions.ts`, `src/lib/auth/session.ts`, and `src/proxy.ts`
+   to match.
+
+2. **Build real screens from XD.** Translate frames using the XD-pixel utilities
+   (section 1). Each new domain area = `npm run gen` then wire pages under
+   `src/app/(dashboard)/`. Drop exported `.svg` icons into `/public/icons`.
+
+3. **Deploy wiring (owner action):** `git push -u origin main`, then connect the
+   repo in Cloudflare → Workers Builds and set the `NEST_API_URL` secret.
+
+Roles so far: `super_admin`, `country_manager`, `agent` (`src/lib/auth/rbac.ts`).
+Extend there if more are needed.
