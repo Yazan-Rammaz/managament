@@ -5,4 +5,6 @@ import { defineCloudflareConfig } from '@opennextjs/cloudflare';
  * Defaults are good for a stateless BFF. Add incrementalCache (KV/R2) here later
  * if you adopt ISR/data-cache.
  */
-export default defineCloudflareConfig({});
+export default defineCloudflareConfig({
+    enableCacheInterception: true,
+});
