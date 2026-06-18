@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "managament",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": ".open-next",
+  "vars": {
+    "NODE_ENV": "production",
+    "NEST_API_URL": "https://yourdomain.com"
+  }
+}

@@ -16,9 +16,12 @@ import { LOCALE_COOKIE, LOCALE_COOKIE_MAX_AGE, matchLocale } from '@/lib/i18n/co
 
 const ACCESS = 'rdb_at';
 const REFRESH = 'rdb_rt';
+const isProdEnv =
+    process.env.NODE_ENV === 'production' ||
+    (globalThis as any).process?.env?.NODE_ENV === 'production';
 
 function buildCsp(nonce: string) {
-    const dev = process.env.NODE_ENV !== 'production';
+    const dev = !isProdEnv;
     // React/Next dev mode uses eval() for Fast Refresh & callstack rebuilding,
     // and a websocket for HMR. Both are dev-only; production stays strict.
     const scriptSrc = dev
@@ -59,7 +62,7 @@ async function tryRefresh(req: NextRequest) {
     const refreshToken = req.cookies.get(REFRESH)?.value;
     if (!refreshToken) return null;
 
-    const base = process.env.NEST_API_URL;
+    const base = process.env.NEST_API_URL || (globalThis as any).process?.env?.NEST_API_URL;
     if (!base) return null;
 
     try {
@@ -120,7 +123,7 @@ export async function middleware(req: NextRequest) {
     if (!hasAccess && hasRefresh) {
         const refreshed = await tryRefresh(req);
         if (refreshed) {
-            const secure = process.env.NODE_ENV === 'production';
+            const secure = isProdEnv;
             const opts = {
                 httpOnly: true,
                 secure,
