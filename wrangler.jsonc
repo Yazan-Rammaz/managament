@@ -1,22 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "management",
-  "pages_build_output_dir": "",
-  // "main": ".open-next/worker.js",
+  "name": "managament",
   "compatibility_date": "2025-03-25",
   "compatibility_flags": ["nodejs_compat"],
-  // "assets": {
-  //   "directory": ".open-next/assets",
-  //   "binding": "ASSETS"
-  // },
-  "observability": {
-    "enabled": true
+  "main": ".open-next/worker.js",
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
   },
   "vars": {
     "NODE_ENV": "production",
     "NEST_API_URL": "https://yourdomain.com"
   }
-  // Secrets (NEST_API_URL, etc.) are set per-environment, NOT here:
-  //   npx wrangler secret put NEST_API_URL
-  // For local dev they live in .dev.vars (git-ignored).
 }
